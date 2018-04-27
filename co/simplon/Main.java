@@ -9,9 +9,9 @@ import oracle.jdbc.OracleDriver;
 
 public class Main {
 
-    static String databaseUrl = "jdbc:oracle:thin:USERNAME/PASSWORD@HOSTNAME:PORT:SID";
+    static String databaseUrl = "jdbc:oracle:thin:system/root@localhost:1521:XE";
 
-    static String requeteSql = "SELECT * FROM EMP";
+    static String requeteSql = "SELECT * FROM HR.COUNTRIES";
 
     public static void main(String[] args) throws Exception {
         DriverManager.registerDriver(new OracleDriver());
@@ -19,10 +19,12 @@ public class Main {
         Connection connexion = DriverManager.getConnection(databaseUrl);
         Statement requete = connexion.createStatement();
         ResultSet resultat = requete.executeQuery(requeteSql);
+        int noVille =0;
         while (resultat.next()) {
-            String nom = resultat.getString("ENAME");
-            System.out.println(nom);
-        }
+        	noVille=resultat.getRow();
+            String nom = resultat.getString("COUNTRY_NAME");
+            System.out.println("Nom pays n° : "+noVille+" ==> " +nom);
+           }
         resultat.close();
         requete.close();
         connexion.close();
